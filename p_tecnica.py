@@ -10,7 +10,7 @@ name_db='renta_cargo_db'
 
 def obtener_dataframe_desde_excel_encriptado(ruta_archivo , contraseña) -> DataFrame :
     '''
-    
+    En esta funcion el archivo excel se desencriptan para poder usarlo y modificarlo con panda, retorna todo el dataframe de la hoja.
     '''
     decrypted = io.BytesIO()
 
@@ -26,6 +26,9 @@ def obtener_dataframe_desde_excel_encriptado(ruta_archivo , contraseña) -> Data
 
 
 def filtrar_informacion(dataframe: DataFrame):
+    '''
+    En esta funcion guardamos en un array las columnas que deseamos ocupar , en este caso se utilizaran para cambiar los "-" a "NaN" y luego  por "0" para que asi el sistema no arroje errores.
+    '''
     columnas_a_convertir = ["Sueldo Base Mensual\n$", "Gratificación Mensual\n$", "Asignación Almuerzo \nMensual\n$",
                         "Vales Almuerzo Valor Bruto Mensual\n$", "Valor Casino \n Bruto\nMensual \n$",
                         "Asignación Movilización\nMensual\n$"]
@@ -39,6 +42,9 @@ def filtrar_informacion(dataframe: DataFrame):
 
 
 def conectar_db(host: str,user: str,password: str):
+    '''
+    Conexion a la base de datos
+    '''
     try:
         conexion = mysql.connector.connect(
             host=host,
@@ -55,6 +61,9 @@ def conectar_db(host: str,user: str,password: str):
 
 
 def crear_db(conexion:MySQLConnectionAbstract ):
+    '''
+    Creamos la base de datos en el servidor.
+    '''
     try:
         cursor = conexion.cursor()
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {name_db}")
@@ -68,6 +77,9 @@ def crear_db(conexion:MySQLConnectionAbstract ):
 
 
 def crear_tablas(conexion:MySQLConnectionAbstract):
+    '''
+    Creamos las tablas dentro de la base de datos que se creo en la funcion anterior.
+    '''
     try:
         cursor=conexion.cursor()
         cursor.execute(f'USE {name_db}')
@@ -107,6 +119,9 @@ def crear_tablas(conexion:MySQLConnectionAbstract):
 
 
 def insertar_datos_desde_dataframe(df, conexion:MySQLConnectionAbstract):
+    '''
+    Iteramos los datos y los guardamos en variables para luego insertarlas en las tablas creadas.
+    '''
     
     try:
         cursor=conexion.cursor()
