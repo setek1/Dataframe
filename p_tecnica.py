@@ -40,6 +40,18 @@ def filtrar_informacion(dataframe: DataFrame):
     print('datos procesados con exito')
     return dataframe
 
+def crear_nuevo_archivo_excel(df):
+    '''
+    Con esta funcion creamos un archivo excel nuevo para poder visualizar los cambios que se hicieron.
+    '''
+    try:
+        nombre_archivo = "data_con_renta_total.xlsx"
+        df.to_excel(nombre_archivo, index=False)
+        print('Nuevo archivo Excel creado correctamente')
+    except Exception as e:
+        print(f'Error al crear el archivo excel {nombre_archivo}')
+
+
 
 def conectar_db(host: str,user: str,password: str):
     '''
@@ -121,6 +133,7 @@ def crear_tablas(conexion:MySQLConnectionAbstract):
 def insertar_datos_desde_dataframe(df, conexion:MySQLConnectionAbstract):
     '''
     Iteramos los datos y los guardamos en variables para luego insertarlas en las tablas creadas.
+    Esta funcion arroja un error debido a que toma en cuenta los valores nulos postdata 'nan' in 'field list' pero aun asi se ingresan los datos, se puede ver reflejado en la BD.
     '''
     
     try:
@@ -157,6 +170,7 @@ def insertar_datos_desde_dataframe(df, conexion:MySQLConnectionAbstract):
 df=obtener_dataframe_desde_excel_encriptado("./Prueba 1 _Formulario Rentas Altos Ejecutivos C&C.xlsx","123")
 df_p=filtrar_informacion(df)
 conexion=conectar_db("localhost","root","")
+crear_nuevo_archivo_excel(df_p)
 createDB=crear_db(conexion)
 crear_tablas(conexion)
 insertar_datos_desde_dataframe(df_p,conexion)
