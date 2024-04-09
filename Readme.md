@@ -52,8 +52,10 @@ Una vez configurado el entorno virtual, instalado las dependencias y corriendo x
 ```bash
 python .\p_tecnica.py
 ```
+# 7. Nuevo archivo Excel
+Se creará un nuevo archivo excel en donde se podrá visualizar los cambios que se hicieron en el archivo.
 
-# 7. ❗Importante❗
+# 8. ❗Importante❗
 Este proyecto genera de forma automática la base de datos y sus propias tablas al ejecutarlo, por lo que no es necesario el uso de script SQL antes de ejecutarlo, la base de datos usada es MySQL con el software xampp, lo más crítico es introducir de forma correcta las credenciales para que el proyecto se puede conectar sin errores a la BD, las credenciales que se ocupan para este proyecto son:
 
 ```json
